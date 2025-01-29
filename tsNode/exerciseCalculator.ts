@@ -8,6 +8,16 @@ type Objective = {
     average: number
 }
 
+const processArguments = (args: Array<string>): Array<number> => {
+    return args.map(a => {
+        const parsed = parseInt(a)
+        if (isNaN(parsed)) {
+            throw new Error('Invalid arguments')
+        }
+        return parsed
+    })
+}
+
 const calculateExercises = (exercises: Array<number>, target: number): Objective => {
 
     const trainingDays: number = exercises.filter(day => day > 0).length
@@ -38,5 +48,13 @@ const calculateExercises = (exercises: Array<number>, target: number): Objective
     }
 }
 
-const hours = [3, 2, 1, 1, 4, 2, 0]
-console.log(calculateExercises(hours, 2))
+try {
+    const hours: Array<number> = processArguments(process.argv.slice(3))
+    console.log(calculateExercises(hours.slice(1), hours[0]))
+} catch (error: unknown) {
+    let errorMsg: string = 'Something went wrong'
+    if (error instanceof Error) {
+        errorMsg += ' Error: ' + error.message
+    }
+    console.log(errorMsg)
+}

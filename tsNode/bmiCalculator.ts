@@ -17,4 +17,16 @@ const calculateBmi = (length: number, weight: number): string => {
     }
     return 'Not valid inputs'
 }
-console.log(calculateBmi(180, 72))
+
+try {
+    const l: number = parseInt(process.argv[2])
+    const w: number = parseInt(process.argv[3])
+    console.log(calculateBmi(l, w))
+} catch (error: unknown) {
+    let errorMsg: string = 'Something went wrong'
+    if (error instanceof Error) {
+        errorMsg += ' Error: ' + error.message
+    }
+    console.log(errorMsg)
+}
+
