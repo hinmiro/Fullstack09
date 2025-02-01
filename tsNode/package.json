@@ -5,13 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
-    "calculateBmi": "ts-node bmiCalculator.ts",
-    "calculateExercises": "ts-node exerciseCalculator.ts"
+    "dev": "ts-node-dev index.ts",
+    "calculateBmi": "ts-node service/bmiCalculator.ts",
+    "calculateExercises": "ts-node service/exerciseCalculator.ts",
+    "start": "ts-node index.ts"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/prettier": "^3.0.0"
+    "@types/express": "^5.0.0",
+    "@types/prettier": "^3.0.0",
+    "ts-node-dev": "^2.0.0"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
   }
 }
