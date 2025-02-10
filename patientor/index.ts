@@ -1,19 +1,11 @@
-import express, {Request, Response} from 'express'
-import cors from 'cors'
-
-const app = express()
-
-app.use(cors())
-app.use(express.json())
+import app from './app'
 
 const PORT = 3001
-
-app.get('/api/ping', (_req: Request, res: Response): void => {
-    console.log('Endpoint got pinged')
-    res.send('PONG!')
-})
+const host = '127.0.0.1'
 
 
-app.listen(PORT, () => {
+
+
+app.listen(PORT, host, () => {
     console.log(`Server running on http://localhost:${PORT}/`)
 })
