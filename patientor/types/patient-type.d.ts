@@ -7,4 +7,6 @@ export interface Patient {
     occupation: string
 }
 
+export type NewPatient = Omit<Patient, 'id'>
+
 export type SanitizedPatient = Omit<Patient, 'ssn'>
