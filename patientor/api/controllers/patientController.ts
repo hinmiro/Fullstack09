@@ -13,6 +13,7 @@ const addNewPatient = (req: Request, res: Response): void => {
     if (!errors.isEmpty()) {
         res.status(400).json({ errors: errors.array() })
     }
+
     try {
         const newPatientData = toPatient(req.body)
         const response = newPatient(newPatientData)

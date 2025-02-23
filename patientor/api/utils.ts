@@ -1,7 +1,20 @@
-import { NewPatient } from '../types/patient-type'
+import { Gender, NewPatient } from '../types/patient-type'
 
 const isString = (text: unknown): text is string => {
     return typeof text === 'string' || text instanceof String
+}
+
+const isGender = (param: string): param is Gender => {
+    return Object.values(Gender)
+        .map((g) => g.toString())
+        .includes(param)
+}
+
+const parseGender = (gender: unknown): Gender => {
+    if (!gender || !isString(gender) || !isGender(gender)) {
+        throw new Error('Incorrect or missing gender value: ' + gender)
+    }
+    return gender
 }
 
 const isNewPatient = (object: unknown): object is NewPatient => {
@@ -11,7 +24,7 @@ const isNewPatient = (object: unknown): object is NewPatient => {
         isString((object as NewPatient).name) &&
         isString((object as NewPatient).dateOfBirth) &&
         isString((object as NewPatient).ssn) &&
-        isString((object as NewPatient).gender) &&
+        parseGender((object as NewPatient).gender) &&
         isString((object as NewPatient).occupation)
     )
 }
