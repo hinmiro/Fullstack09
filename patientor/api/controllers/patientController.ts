@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import { validationResult } from 'express-validator'
+import z from 'zod'
 import { getPatientData, newPatient } from '../services/patientService'
-import toPatient from '../utils'
+import { newEntryPatientSchema } from '../utils'
 
 const getAllPatients = (_req: Request, res: Response): void => {
     const response = getPatientData()
@@ -9,23 +9,16 @@ const getAllPatients = (_req: Request, res: Response): void => {
 }
 
 const addNewPatient = (req: Request, res: Response): void => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-        res.status(400).json({ errors: errors.array() })
-    }
-
     try {
-        const newPatientData = toPatient(req.body)
+        const newPatientData = newEntryPatientSchema.parse(req.body)
         const response = newPatient(newPatientData)
-        if (response) {
-            res.status(201).json(response)
-        }
+        res.status(201).json(response)
     } catch (error: unknown) {
-        let msg = 'Something went wrong, '
-        if (error instanceof Error) {
-            msg += error.message
+        if (error instanceof z.ZodError) {
+            res.status(400).send({ error: error.issues })
+        } else {
+            res.status(400).send({ error: 'unknown error' })
         }
-        res.status(400).send(msg)
     }
 }
 
