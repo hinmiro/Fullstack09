@@ -1,33 +1,8 @@
 import Header from "./components/Header.tsx";
 import Content from "./components/Content.tsx";
 import Total from "./components/Total.tsx";
+import {CoursePart} from "./model/coursePart.ts";
 
-interface CoursePartBase {
-    name: string;
-    exerciseCount: number;
-}
-
-interface CourseDescription extends CoursePartBase {
-    description: string
-}
-
-interface CoursePartBasic extends CourseDescription {
-    kind: "basic"
-}
-
-interface CoursePartGroup extends CoursePartBase {
-    groupProjectCount: number;
-    kind: "group"
-}
-
-interface CoursePartBackground extends CourseDescription {
-    backgroundMaterial: string;
-    kind: "background"
-}
-
-
-
-type CoursePart = CoursePartBasic | CoursePartGroup | CoursePartBackground | CourseDescription
 
 const App = () => {
     const courseName = "Half Stack application development";
@@ -63,6 +38,13 @@ const App = () => {
             description: "a hard part",
             kind: "basic",
         },
+        {
+            name: "Backend development",
+            exerciseCount: 21,
+            description: "Typing the backend",
+            requirements: ["nodejs", "jest"],
+            kind: "special"
+        }
     ];
 
     const totalExercises = courseParts.reduce((sum, part) => sum + part.exerciseCount, 0);

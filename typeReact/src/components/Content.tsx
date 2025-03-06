@@ -1,16 +1,12 @@
-interface ContentProps {
-    courseParts: {
-        name: string,
-        exerciseCount: number
-    }[]
-}
+import {CoursePart, ContentProps} from "../model/coursePart.ts";
+import Part from "./Part.tsx";
 
-const Content = (props: ContentProps) => {
+const Content = ({courseParts}: ContentProps) => {
 
     return (
         <>
-            {props.courseParts.map(item => (
-                <p>{item.name} {item.exerciseCount}</p>
+            {courseParts.map((part: CoursePart, i: number) => (
+                <Part key={i} part={part}/>
             ))}
         </>
     );
