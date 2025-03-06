@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react'
+import { Entry } from './models/types.ts'
 import axios from 'axios'
+import Entries from './components/Entries.tsx'
+import * as React from 'react'
 
-interface Entry {
-  id: number,
-  date: string,
-  weather: string,
-  visibility: string,
-  comment: string,
-}
 
 function App() {
   const [entries, setEntries] = useState<Entry[]>([])
+  const [weather, setWeather] = useState('')
+  const [visibility, setVisibility] = useState('')
+  const [comment, setComment] = useState('')
 
   useEffect(() => {
     axios.get<Entry[]>('http://localhost:3000/api/diaries').then(response => {
@@ -19,22 +18,50 @@ function App() {
     })
   }, [])
 
+  const addEntry = (event: React.SyntheticEvent) => {
+    event.preventDefault()
+    const date = new Date().toISOString().toString().split('T')
+    const entry: Entry = {
+      date: date[0].toString(),
+      weather: weather,
+      visibility: visibility,
+      comment: comment
+    }
+
+    axios.post('http://localhost:3000/api/diaries/', entry).then(result => {
+      console.log(result.data)
+      setEntries([...entries, result.data])
+    })
+
+  }
+
 
   return (
     <>
       <h1>Flight diary</h1>
-      <table style={{flex: 1}}>
-        <tbody>
-        {entries.map((entry, i: number) => (
-          <tr key={i}>
-            <td><i>{entry.date}</i></td>
-            <td>{entry.weather}</td>
-            <td>{entry.visibility}</td>
-            <td style={{paddingLeft: '3rem'}}>{entry.comment}</td>
-          </tr>
-        ))}
-        </tbody>
-      </table>
+      <div>
+        <h2>Add new entry</h2>
+        <form onSubmit={addEntry}>
+          <div>
+            <div style={{display: 'flex', gap: '1rem'}}>
+              <label>Weather:</label>
+              <input aria-label={'Weather: '} value={weather} onChange={(event) => setWeather(event.target.value)} />
+            </div>
+            <div style={{display: 'flex', gap: '1rem'}}>
+              <label>Visibility:</label>
+              <input aria-label="Visibility: " value={visibility}
+                     onChange={(event) => setVisibility(event.target.value)} />
+            </div>
+            <div style={{display: 'flex', gap: '1rem'}}>
+              <label>Comment:</label>
+              <input aria-label="Comment: " value={comment} onChange={(event) => setComment(event.target.value)} />
+            </div>
+            <button type="submit">Add</button>
+          </div>
+        </form>
+        <br/>
+      </div>
+      <Entries entries={entries} />
     </>
   )
 }
