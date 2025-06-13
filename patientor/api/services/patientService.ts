@@ -1,6 +1,7 @@
+import { Patient, Gender, Entry } from './../../types/patient-type'
 import data from '../../data/patients'
 import { v1 as uuid } from 'uuid'
-import { Gender, NewPatient, SanitizedPatient } from '../../types/patient-type'
+import { NewPatient, SanitizedPatient } from '../../types/patient-type'
 
 const getPatientData = (): SanitizedPatient[] => {
     return data.map(({ id, name, dateOfBirth, gender, occupation }) => ({
@@ -19,4 +20,12 @@ const newPatient = (patient: NewPatient): SanitizedPatient => {
     return sanitized
 }
 
-export { getPatientData, newPatient }
+const getPatientDataById = (id: string): Patient | undefined => {
+    const patient = data.find((p) => p.id === id)
+    if (!patient) {
+        return undefined
+    }
+    return { ...patient, gender: patient.gender as Gender, entries: patient.entries as Entry[] }
+}
+
+export { getPatientData, newPatient, getPatientDataById }

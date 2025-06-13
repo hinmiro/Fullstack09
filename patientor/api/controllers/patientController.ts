@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import z from 'zod'
-import { getPatientData, newPatient } from '../services/patientService'
+import { getPatientData, newPatient, getPatientDataById } from '../services/patientService'
 import { newEntryPatientSchema } from '../utils'
 
 const getAllPatients = (_req: Request, res: Response): void => {
@@ -22,4 +22,9 @@ const addNewPatient = (req: Request, res: Response): void => {
     }
 }
 
-export { getAllPatients, addNewPatient }
+const getPatientById = (req: Request, res: Response): void => {
+    const response = getPatientDataById(req.params.id)
+    res.status(200).json(response)
+}
+
+export { getAllPatients, addNewPatient, getPatientById }

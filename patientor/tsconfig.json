@@ -122,6 +122,7 @@
   },
   "include": [
     "src",
-    "types"
+    "types",
+    "api/routes"
   ]
 }
