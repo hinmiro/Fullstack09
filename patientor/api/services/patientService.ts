@@ -14,7 +14,7 @@ const getPatientData = (): SanitizedPatient[] => {
 }
 
 const newPatient = (patient: NewPatient): SanitizedPatient => {
-    const newPatient = { ...patient, id: uuid() }
+    const newPatient = { ...patient, id: uuid(), entries: [] }
     data.push(newPatient)
     const { ssn, ...sanitized } = newPatient
     return sanitized
@@ -25,7 +25,10 @@ const getPatientDataById = (id: string): Patient | undefined => {
     if (!patient) {
         return undefined
     }
-    return { ...patient, gender: patient.gender as Gender, entries: patient.entries as Entry[] }
-}
 
+    return {
+        ...patient,
+        gender: patient.gender as Gender, entries: patient.entries as Entry []
+    }
+}
 export { getPatientData, newPatient, getPatientDataById }

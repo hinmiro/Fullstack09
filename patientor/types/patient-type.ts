@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { newEntryPatientSchema } from '../api/utils'
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface Entry {
 }
 
@@ -11,7 +12,7 @@ export interface Patient {
     ssn: string
     gender: Gender
     occupation: string,
-    entries: Entry[]
+    entries: Entry []
 }
 
 export enum Gender {
