@@ -22,13 +22,16 @@ const newPatient = (patient: NewPatient): SanitizedPatient => {
 
 const getPatientDataById = (id: string): Patient | undefined => {
     const patient = data.find((p) => p.id === id)
+    console.log(patient)
+
     if (!patient) {
         return undefined
     }
 
     return {
         ...patient,
-        gender: patient.gender as Gender, entries: patient.entries as Entry []
+        gender: patient.gender as Gender,
+        entries: patient.entries as Entry[],
     }
 }
 export { getPatientData, newPatient, getPatientDataById }
