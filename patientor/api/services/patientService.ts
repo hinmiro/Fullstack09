@@ -22,7 +22,6 @@ const newPatient = (patient: NewPatient): SanitizedPatient => {
 
 const getPatientDataById = (id: string): Patient | undefined => {
     const patient = data.find((p) => p.id === id)
-    console.log(patient)
 
     if (!patient) {
         return undefined
