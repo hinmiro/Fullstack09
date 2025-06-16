@@ -13,7 +13,7 @@ const PatientDetails = () => {
       if (!id) return;
       const data = await patientService.getById(id);
       console.log(data);
-      
+
       setPatient(data);
     };
     fetchPatient();
@@ -42,6 +42,17 @@ const PatientDetails = () => {
         </div>
         <p>ssn: {patient.ssn}</p>
         <p>occupation: {patient.occupation}</p>
+      </div>
+      <div>
+        <h2>Entries</h2>
+        <div>
+          {patient.entries.map((e) => (
+            <div>
+              <p>{e.description}</p>
+              <ul>{e.diagnosisCodes?.map((c) => <li>{c}</li>)}</ul>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
