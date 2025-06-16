@@ -12,6 +12,8 @@ const PatientDetails = () => {
     const fetchPatient = async () => {
       if (!id) return;
       const data = await patientService.getById(id);
+      console.log(data);
+      
       setPatient(data);
     };
     fetchPatient();
