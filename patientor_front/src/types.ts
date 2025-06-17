@@ -41,7 +41,7 @@ export enum HealthCheckRating {
   'CriticalRisk' = 3,
 }
 
-export interface Diagnosis {
+export interface Diagnose {
   code: string;
   name: string;
   latin?: string;
