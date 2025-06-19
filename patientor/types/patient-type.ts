@@ -63,3 +63,11 @@ export enum HealthCheckRating {
 export type NewPatient = z.infer<typeof newEntryPatientSchema>
 
 export type SanitizedPatient = Omit<Patient, 'ssn' | 'entries'>
+
+export type NewHospitalEntry = Omit<HospitalEntry, 'id'>
+export type NewOccupationalHealthcareEntry = Omit<OccupationalHealthcare, 'id'>
+export type NewHealthCheckEntry = Omit<HealthCheckEntry, 'id'>
+export type NewEntry =
+    | NewHospitalEntry
+    | NewOccupationalHealthcareEntry
+    | NewHealthCheckEntry

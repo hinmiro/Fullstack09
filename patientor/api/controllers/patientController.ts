@@ -1,7 +1,12 @@
 import { Request, Response } from 'express'
 import z from 'zod'
-import { getPatientData, newPatient, getPatientDataById } from '../services/patientService'
-import { newEntryPatientSchema } from '../utils'
+import {
+    getPatientData,
+    newPatient,
+    getPatientDataById,
+    addPatientEntry,
+} from '../services/patientService'
+import { newEntryPatientSchema, NewEntrySchema } from '../utils'
 
 const getAllPatients = (_req: Request, res: Response): void => {
     const response = getPatientData()
@@ -27,4 +32,19 @@ const getPatientById = (req: Request, res: Response): void => {
     res.status(200).json(response)
 }
 
-export { getAllPatients, addNewPatient, getPatientById }
+const addEntry = (req: Request, res: Response): void => {
+    const id = req.params.id
+    try {
+        const parsedEntry = NewEntrySchema.parse(req.body)
+        const response = addPatientEntry(id, parsedEntry)
+        res.status(200).json(response)
+    } catch (error: unknown) {
+        if (error instanceof z.ZodError) {
+            res.status(400).send({ error: error.issues })
+        } else {
+            res.status(400).send({ error: 'Invalid entry data' })
+        }
+    }
+}
+
+export { getAllPatients, addNewPatient, getPatientById, addEntry }

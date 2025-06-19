@@ -1,4 +1,4 @@
-import { Patient, Gender, Entry } from './../../types/patient-type'
+import { Patient, Entry, NewEntry } from './../../types/patient-type'
 import data from '../../data/patients'
 import { v1 as uuid } from 'uuid'
 import { NewPatient, SanitizedPatient } from '../../types/patient-type'
@@ -8,7 +8,7 @@ const getPatientData = (): SanitizedPatient[] => {
         id,
         name,
         dateOfBirth,
-        gender: gender as Gender,
+        gender: gender,
         occupation,
     }))
 }
@@ -29,8 +29,19 @@ const getPatientDataById = (id: string): Patient | undefined => {
 
     return {
         ...patient,
-        gender: patient.gender as Gender,
-        entries: patient.entries as Entry[],
+        gender: patient.gender,
+        entries: patient.entries,
     }
 }
-export { getPatientData, newPatient, getPatientDataById }
+
+const addPatientEntry = (id: string, entry: NewEntry): Patient | undefined => {
+    const patient = data.find((patient) => patient.id === id)
+    if (!patient) {
+        return undefined
+    }
+    const newEntry: Entry = { ...entry, id: uuid() }
+    patient.entries.push(newEntry)
+    return patient
+}
+
+export { getPatientData, newPatient, getPatientDataById, addPatientEntry }
