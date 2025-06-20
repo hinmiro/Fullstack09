@@ -3,6 +3,7 @@ import { Diagnose, Patient } from '../../types';
 import { useParams } from 'react-router-dom';
 import patientService from '../../services/patients';
 import EntryDetails from './EntryDetails';
+import AddEntry from './AddEntry';
 
 interface Props {
   diagnoses: Diagnose[];
@@ -48,6 +49,7 @@ const PatientDetails = (props: Props) => {
         <p>ssn: {patient.ssn}</p>
         <p>occupation: {patient.occupation}</p>
       </div>
+      <AddEntry />
       <div>
         <h2>Entries</h2>
         {patient.entries.length === 0 ? (
