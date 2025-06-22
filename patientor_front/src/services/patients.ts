@@ -25,7 +25,10 @@ const getById = async (id: string) => {
 
 const addEntry = async (id: string, entry: NewEntry) => {
     console.log(entry);
-    const { data } = await axios.post(`${apiBaseUrl}/patients/${id}/entries`);
+    const { data } = await axios.post(
+        `${apiBaseUrl}/patients/${id}/entries`,
+        entry,
+    );
     console.log('data: ', data);
     return data;
 };

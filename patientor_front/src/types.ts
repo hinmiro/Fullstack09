@@ -9,9 +9,11 @@ interface BaseEntry {
 }
 
 export interface NewEntry {
-    description: string;
+    type: string;
     date: string;
     specialist: string;
+    description: string;
+    healthCheckRating: number;
     diagnosisCodes: string[];
 }
 

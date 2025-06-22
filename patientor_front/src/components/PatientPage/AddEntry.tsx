@@ -11,7 +11,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { Button } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 
 import axios from 'axios';
 import patientService from '../../services/patients';
@@ -35,12 +35,16 @@ const AddEntry = ({ id, diagnoses, setErrorText }: Props) => {
 
     const addNewEntry = async (event: SyntheticEvent) => {
         event.preventDefault();
+
         const newEntry: NewEntry = {
-            description: description,
+            type: 'HealthCheck',
             date: date ? date.format('YYYY-MM-DD') : '',
             specialist: specialist,
+            description: description,
+            healthCheckRating: healthCheckRating,
             diagnosisCodes: selectedCodes,
         };
+
         try {
             const result = await patientService.addEntry(id, newEntry);
             console.log('Result: ', result);
