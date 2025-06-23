@@ -15,23 +15,32 @@ import { Dayjs } from 'dayjs';
 
 import axios from 'axios';
 import patientService from '../../services/patients';
-import { SyntheticEvent, useState } from 'react';
-import { Diagnose, NewEntry } from '../../types';
+import React, { SyntheticEvent, useState } from 'react';
+import { Diagnose, NewEntry, Patient } from '../../types';
 
 interface Props {
     id: string;
     diagnoses: Diagnose[];
     setErrorText: React.Dispatch<React.SetStateAction<string>>;
+    setPatient: React.Dispatch<React.SetStateAction<Patient | undefined>>;
 }
 
-const AddEntry = ({ id, diagnoses, setErrorText }: Props) => {
+const AddEntry = ({ id, diagnoses, setErrorText, setPatient }: Props) => {
     const [selectedCodes, setSelectedCodes] = useState<string[]>([]);
     const [showDiagnoses, setShowDiagnoses] = useState(false);
     const [entryType, setEntryType] = useState(undefined);
     const [description, setDescription] = useState('');
     const [date, setDate] = useState<Dayjs | null>(null);
     const [specialist, setSpecialist] = useState('');
-    const [healthCheckRating, setHealthCheckRating] = useState(1);
+    const [healthCheckRating, setHealthCheckRating] = useState(0);
+
+    const clearForm = () => {
+        setDate(null);
+        setDescription('');
+        setSpecialist('');
+        setHealthCheckRating(0);
+        setSelectedCodes([]);
+    };
 
     const addNewEntry = async (event: SyntheticEvent) => {
         event.preventDefault();
@@ -47,7 +56,8 @@ const AddEntry = ({ id, diagnoses, setErrorText }: Props) => {
 
         try {
             const result = await patientService.addEntry(id, newEntry);
-            console.log('Result: ', result);
+            setPatient(result);
+            clearForm();
         } catch (error: unknown) {
             console.log('error: ', error);
             if (axios.isAxiosError(error)) {
@@ -123,7 +133,7 @@ const AddEntry = ({ id, diagnoses, setErrorText }: Props) => {
                             label="Health Rating"
                             onChange={handleRatingPick}
                         >
-                            <MenuItem value=""></MenuItem>
+                            <MenuItem value={0}>0</MenuItem>
                             <MenuItem value={1}>1</MenuItem>
                             <MenuItem value={2}>2</MenuItem>
                             <MenuItem value={3}>3</MenuItem>
@@ -187,11 +197,22 @@ const AddEntry = ({ id, diagnoses, setErrorText }: Props) => {
                     <Box
                         sx={{
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'space-between',
                             width: '100%',
                             marginTop: 2,
                         }}
                     >
+                        <Button
+                            variant="contained"
+                            sx={{
+                                bgcolor: 'red',
+                                '&:hover': { bgcolor: 'darkred' },
+                            }}
+                            onClick={() => clearForm()}
+                        >
+                            Clear
+                        </Button>
+
                         <Button
                             type="submit"
                             variant="contained"
