@@ -72,4 +72,11 @@ export interface Patient {
     entries: Entry[];
 }
 
+export enum EntryType {
+    HospitalEntry = 'Hospital',
+    HealthCheck = 'HealthCheck',
+    HealthCare = 'OccupationalHealthcare'
+
+}
+
 export type PatientFormValues = Omit<Patient, 'id' | 'entries'>;

@@ -16,7 +16,7 @@ import { Dayjs } from 'dayjs';
 import axios from 'axios';
 import patientService from '../../services/patients';
 import React, { SyntheticEvent, useState } from 'react';
-import { Diagnose, NewEntry, Patient } from '../../types';
+import { Diagnose, NewEntry, Patient, EntryType } from '../../types';
 
 interface Props {
     id: string;
@@ -28,7 +28,7 @@ interface Props {
 const AddEntry = ({ id, diagnoses, setErrorText, setPatient }: Props) => {
     const [selectedCodes, setSelectedCodes] = useState<string[]>([]);
     const [showDiagnoses, setShowDiagnoses] = useState(false);
-    const [entryType, setEntryType] = useState(undefined);
+    const [entryType, setEntryType] = useState<EntryType | ''>('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState<Dayjs | null>(null);
     const [specialist, setSpecialist] = useState('');
@@ -87,6 +87,12 @@ const AddEntry = ({ id, diagnoses, setErrorText, setPatient }: Props) => {
         setShowDiagnoses((prev) => !prev);
     };
 
+    const handleEntryTypeChange = (event: SelectChangeEvent<EntryType>) => {
+        const value = event.target.value as EntryType;
+        console.log(value);
+        setEntryType(value);
+    };
+
     return (
         <>
             <Box sx={{ borderStyle: 'dotted', borderRadius: '10px' }}>
@@ -99,6 +105,26 @@ const AddEntry = ({ id, diagnoses, setErrorText, setPatient }: Props) => {
                     }}
                 >
                     <h3>New Entry</h3>
+                    <FormControl>
+                        <InputLabel id="type_select_label">Type</InputLabel>
+                        <Select
+                            labelId="type_select_label"
+                            id="type_select"
+                            value={entryType}
+                            label="Entry type"
+                            onChange={handleEntryTypeChange}
+                        >
+                            <MenuItem value={EntryType.HealthCare}>
+                                Healthcare
+                            </MenuItem>
+                            <MenuItem value={EntryType.HealthCheck}>
+                                Health check
+                            </MenuItem>
+                            <MenuItem value={EntryType.HospitalEntry}>
+                                Hospital entry
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
                     <TextField
                         id="standard-basic"
                         label="Description"

@@ -34,15 +34,15 @@ const getPatientById = (req: Request, res: Response): void => {
 
 const addEntry = (req: Request, res: Response): void => {
     const id = req.params.id
-    console.log(req.body);
-    
+    console.log(req.body)
+
     try {
         const parsedEntry = NewEntrySchema.parse(req.body)
-        console.log('parsed -- ', parsedEntry);
-        
+        console.log('parsed -- ', parsedEntry)
+
         const response = addPatientEntry(id, parsedEntry)
-        console.log('response server: ', response);
-        
+        console.log('response server: ', response)
+
         res.status(200).json(response)
     } catch (error: unknown) {
         if (error instanceof z.ZodError) {
