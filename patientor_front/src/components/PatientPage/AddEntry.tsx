@@ -17,6 +17,7 @@ import axios from 'axios';
 import patientService from '../../services/patients';
 import React, { SyntheticEvent, useState } from 'react';
 import { Diagnose, NewEntry, Patient, EntryType } from '../../types';
+import BaseForm from '../EntryForms/BaseForm';
 
 interface Props {
     id: string;
@@ -104,6 +105,7 @@ const AddEntry = ({ id, diagnoses, setErrorText, setPatient }: Props) => {
                         flexDirection: 'column',
                     }}
                 >
+                    <BaseForm id={id} diagnoses={diagnoses} />
                     <h3>New Entry</h3>
                     <FormControl>
                         <InputLabel id="type_select_label">Type</InputLabel>
