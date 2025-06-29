@@ -5,8 +5,8 @@ import { Diagnose, Patient } from '../../types';
 import { useParams } from 'react-router-dom';
 import patientService from '../../services/patients';
 import EntryDetails from './EntryDetails';
-import AddEntry from './AddEntry';
 import Notification from '../Notification';
+import BaseForm from '../EntryForms/BaseForm';
 
 interface Props {
     diagnoses: Diagnose[];
@@ -55,10 +55,11 @@ const PatientDetails = (props: Props) => {
                 <p>occupation: {patient.occupation}</p>
             </div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <AddEntry
+                <BaseForm
                     id={patient.id}
                     diagnoses={diagnoses}
                     setErrorText={setErrorText}
+                    setPatient={setPatient}
                 />
             </LocalizationProvider>
 
